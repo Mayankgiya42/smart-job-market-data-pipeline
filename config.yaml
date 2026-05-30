@@ -1,0 +1,56 @@
+api:
+  provider: "mock"
+  use_mock_data: true
+  search_term: "data engineer"
+
+database:
+  host: "localhost"
+  port: 5432
+  name: "job_market_db"
+  user: "postgres"
+  password: "YOUR_PASSWORD_HERE"
+
+paths:
+  raw_data_dir: "data/raw"
+  processed_data_dir: "data/processed"
+  logs_dir: "logs"
+  raw_filename: "jobs_raw.json"
+  processed_filename: "jobs_cleaned.csv"
+
+logging:
+  log_dir: "logs"
+
+pipeline:
+  skills_to_extract:
+    - "Python"
+    - "SQL"
+    - "AWS"
+    - "Azure"
+    - "GCP"
+    - "Spark"
+    - "Kafka"
+    - "Airflow"
+    - "dbt"
+    - "Docker"
+    - "Kubernetes"
+    - "Terraform"
+    - "Scala"
+    - "Java"
+    - "Hadoop"
+    - "Snowflake"
+    - "Redshift"
+    - "BigQuery"
+    - "Databricks"
+    - "PostgreSQL"
+    - "MySQL"
+    - "MongoDB"
+    - "Redis"
+    - "Git"
+    - "Linux"
+    - "ETL"
+    - "REST API"
+    - "Power BI"
+    - "Tableau"
+    - "Pandas"
+    - "NumPy"
+    - "PySpark"

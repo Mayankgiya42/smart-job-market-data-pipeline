@@ -1,0 +1,31 @@
+# =============================================================================
+# Smart Job Market Data Pipeline — Python Dependencies
+# =============================================================================
+# Install with:  pip install -r requirements.txt
+# Tested with Python 3.11+
+
+# HTTP client — API requests
+requests==2.31.0
+
+# Data manipulation & cleaning
+pandas==2.2.2
+numpy==1.26.4
+
+# PostgreSQL adapter
+psycopg2-binary==2.9.9
+
+# YAML config parsing (included in stdlib since Python 3.9, but explicit pin)
+PyYAML==6.0.1
+
+# Optional — progress bars for long-running fetches
+tqdm==4.66.4
+
+# Optional — pretty terminal tables for insight summaries
+tabulate==0.9.0
+
+# ── Dashboard ──────────────────────────────────────────────────────────────
+# Streamlit web dashboard
+streamlit==1.35.0
+
+# Interactive charts (Plotly used by dashboard/app.py)
+plotly==5.22.0
