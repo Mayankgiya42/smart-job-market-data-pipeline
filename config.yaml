@@ -1,14 +1,20 @@
 api:
-  provider: "mock"
-  use_mock_data: true
-  search_term: "data engineer"
+  provider: adzuna
+  use_mock_data: false
+  base_url: https://api.adzuna.com/v1/api/jobs
+  app_id: ${ADZUNA_APP_ID}
+  app_key: ${ADZUNA_APP_KEY}
+  country: in
+  search_term: data engineer
+  results_per_page: 20
+  max_pages: 3
 
 database:
   host: "localhost"
   port: 5432
   name: "job_market_db"
   user: "postgres"
-  password: "YOUR_PASSWORD_HERE"
+  password: "YOUR_PASSWORD"
 
 paths:
   raw_data_dir: "data/raw"
