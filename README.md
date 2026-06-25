@@ -1,293 +1,231 @@
 # 🚀 Smart Job Market Data Pipeline
 
-A production-style, end-to-end data engineering pipeline that **extracts** Data Engineer job listings from a public API, **transforms** and enriches the data with Pandas, **loads** it into PostgreSQL, and surfaces actionable **insights** through SQL analytics.
+### Real-Time Data Engineering ETL Pipeline for Indian Job Market Analytics
 
-Built as a portfolio showcase project demonstrating professional Python architecture, clean data engineering practices, and solid SQL skills.
+![Python](https://img.shields.io/badge/Python-3.13-blue?style=for-the-badge&logo=python)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-336791?style=for-the-badge&logo=postgresql)
+![Streamlit](https://img.shields.io/badge/Streamlit-Dashboard-FF4B4B?style=for-the-badge&logo=streamlit)
+![Plotly](https://img.shields.io/badge/Plotly-Visualization-3F4F75?style=for-the-badge&logo=plotly)
+![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
+:::
 
----
+------------------------------------------------------------------------
 
-## 📐 Architecture
+## 📌 Overview
 
+**Smart Job Market Data Pipeline** is a production-style **End-to-End
+ETL (Extract, Transform, Load)** project that collects real-time **Data
+Engineering job listings** from the **Adzuna REST API**, cleans and
+enriches the data using **Python & Pandas**, stores it in a **normalized
+PostgreSQL database**, and visualizes hiring trends through an
+interactive **Streamlit dashboard**.
+
+The project demonstrates practical data engineering concepts including
+API integration, ETL workflows, data cleaning, relational database
+design, SQL analytics, logging, and interactive business intelligence
+dashboards.
+
+------------------------------------------------------------------------
+
+# ✨ Features
+
+-   🌐 Real-time job extraction from Adzuna REST API
+-   🔄 Modular ETL Pipeline (Extract → Transform → Load)
+-   🧹 Data cleaning, normalization and deduplication
+-   🛠 Automatic skill extraction from job descriptions
+-   🗄 Normalized PostgreSQL schema (3NF)
+-   📊 Interactive Streamlit + Plotly dashboard
+-   🔍 SQL analytics for hiring trends
+-   ⚙ Configuration-driven execution using YAML
+-   📝 Structured logging
+-   🔁 Idempotent database loading
+-   🇮🇳 Indian job market focused
+
+------------------------------------------------------------------------
+
+# 🏗 Architecture
+
+``` text
+                Adzuna REST API
+                       │
+                       ▼
+        Extract (Python + Requests)
+                       │
+                       ▼
+      Transform (Pandas + Cleaning)
+                       │
+                       ▼
+     Clean CSV / Processed Dataset
+                       │
+                       ▼
+     PostgreSQL (Normalized Schema)
+                       │
+                       ▼
+     Streamlit + Plotly Dashboard
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                        PIPELINE FLOW                            │
-│                                                                 │
-│  ┌──────────┐    JSON     ┌─────────────┐    CSV    ┌────────┐  │
-│  │ Adzuna   │ ─────────► │  Transform  │ ────────► │  Load  │  │
-│  │   API    │             │  (Pandas)   │           │  (PG)  │  │
-│  └──────────┘             └─────────────┘           └────────┘  │
-│       ↓                         ↓                       ↓       │
-│  data/raw/              data/processed/          PostgreSQL DB  │
-│  jobs_raw.json          jobs_cleaned.csv        (3 tables)      │
-└─────────────────────────────────────────────────────────────────┘
-```
 
-**Three-phase pipeline:**
+------------------------------------------------------------------------
 
-| Phase | Module | Input | Output |
-|---|---|---|---|
-| **Extract** | `src/extract.py` | Adzuna REST API | `data/raw/jobs_raw.json` |
-| **Transform** | `src/transform.py` | Raw JSON | `data/processed/jobs_cleaned.csv` |
-| **Load** | `src/load.py` | Cleaned CSV | PostgreSQL `job_market_db` |
+# 🛠 Tech Stack
 
-**Database schema (normalised, 3NF):**
+  Category          Technologies
+  ----------------- ---------------------------
+  Language          Python 3.13
+  Data Processing   Pandas, NumPy
+  API               Requests, REST API, JSON
+  Database          PostgreSQL, SQL, psycopg2
+  Dashboard         Streamlit, Plotly
+  Configuration     YAML
+  Version Control   Git, GitHub
+  Logging           Python Logging
 
-```
-jobs            skills          job_skills
-───────────     ──────────      ──────────────
-job_id (PK)     skill_id (PK)   job_id   (FK → jobs)
-title           skill_name      skill_id (FK → skills)
-company
-city
-state_country
-salary_min/max/avg
-posted_date
-...
-```
+------------------------------------------------------------------------
 
----
+# 📂 Project Structure
 
-## 🛠 Tech Stack
-
-| Layer | Technology |
-|---|---|
-| Language | Python 3.11+ |
-| Data manipulation | Pandas, NumPy |
-| API client | Requests |
-| Database | PostgreSQL 14+ |
-| DB adapter | psycopg2 |
-| Config | YAML |
-| Logging | Python `logging` module |
-
----
-
-## 📁 Project Structure
-
-```
+``` text
 job-data-pipeline/
-│
-├── data/
-│   ├── raw/                    # Raw JSON from API
-│   └── processed/              # Cleaned CSV (Pandas output)
-│
+├── dashboard/
+│   └── app.py
 ├── src/
-│   ├── __init__.py
-│   ├── extract.py              # Phase 1 — API extraction
-│   ├── transform.py            # Phase 2 — data cleaning & enrichment
-│   ├── load.py                 # Phase 3 — PostgreSQL loading
-│   └── utils.py                # Logging, config helpers, utilities
-│
+│   ├── extract.py
+│   ├── transform.py
+│   ├── load.py
+│   └── utils.py
 ├── sql/
-│   ├── schema.sql              # DDL — table & index definitions
-│   └── queries.sql             # Analytical queries (insights)
-│
-├── logs/                       # Auto-created; one log file per run
-│
-├── config.yaml                 # Credentials & pipeline settings
-├── main.py                     # Orchestrator — run from here
+│   ├── schema.sql
+│   └── queries.sql
+├── data/
+│   ├── raw/
+│   └── processed/
+├── assets/
+├── config.yaml
 ├── requirements.txt
+├── main.py
 └── README.md
 ```
 
----
+------------------------------------------------------------------------
 
-## ⚙️ Setup
+# 🚀 Getting Started
 
-### Prerequisites
+## Clone
 
-- Python 3.11+
-- PostgreSQL 14+ (running locally or via Docker)
-- A free [Adzuna API key](https://developer.adzuna.com/) *(optional — mock data works without one)*
-
-### 1. Clone the repository
-
-```bash
-git clone https://github.com/YOUR_USERNAME/job-data-pipeline.git
-cd job-data-pipeline
+``` bash
+git clone https://github.com/Mayankgiya42/smart-job-market-data-pipeline.git
+cd smart-job-market-data-pipeline
 ```
 
-### 2. Create a virtual environment
+## Create Virtual Environment
 
-```bash
+``` bash
 python -m venv .venv
-source .venv/bin/activate        # macOS / Linux
-.venv\Scripts\activate           # Windows
+.venv\Scripts\activate
 ```
 
-### 3. Install dependencies
+## Install Dependencies
 
-```bash
+``` bash
 pip install -r requirements.txt
 ```
 
-### 4. Configure the pipeline
+## Configure
 
-```bash
-# config.yaml is already present — edit it with your credentials
-```
+Update `config.yaml` with:
 
-Open `config.yaml` and fill in:
+-   PostgreSQL credentials
+-   Adzuna App ID
+-   Adzuna App Key
 
-```yaml
-api:
-  app_id: "YOUR_ADZUNA_APP_ID"    # Leave as-is to use mock data
-  app_key: "YOUR_ADZUNA_APP_KEY"
-  use_mock_data: false             # Set to true to skip the API entirely
+------------------------------------------------------------------------
 
-database:
-  host: "localhost"
-  port: 5432
-  name: "job_market_db"
-  user: "postgres"
-  password: "YOUR_DB_PASSWORD"
-```
+# ▶ Run ETL Pipeline
 
-### 5. Create the PostgreSQL database
-
-```bash
-psql -U postgres -c "CREATE DATABASE job_market_db;"
-```
-
-The schema is created **automatically** by `load.py`, but you can also run it manually:
-
-```bash
-psql -U postgres -d job_market_db -f sql/schema.sql
-```
-
----
-
-## ▶️ Running the Pipeline
-
-### Full pipeline (all three phases)
-
-```bash
+``` bash
 python main.py
 ```
 
-### Individual phases
+Run individual phases:
 
-```bash
-python main.py --phase extract     # API → data/raw/
-python main.py --phase transform   # data/raw/ → data/processed/
-python main.py --phase load        # data/processed/ → PostgreSQL
-```
-
-### Without a database (extract + transform only)
-
-```bash
+``` bash
 python main.py --phase extract
 python main.py --phase transform
-# Inspect data/processed/jobs_cleaned.csv — no DB needed
+python main.py --phase load
 ```
 
-### Custom config file
+------------------------------------------------------------------------
 
-```bash
-python main.py --config path/to/my_config.yaml
+# 📊 Launch Dashboard
+
+``` bash
+streamlit run dashboard/app.py
 ```
 
----
+------------------------------------------------------------------------
 
-## 📊 Sample Outputs
+# 📸 Dashboard Preview
 
-### Cleaned CSV (`data/processed/jobs_cleaned.csv`)
+``` md
+![Dashboard](assets/DashBoard.png)
 
-| job_id | title | company | city | salary_avg | skills |
-|---|---|---|---|---|---|
-| mock_001 | Senior Data Engineer | TechCorp Inc | New York | 140000 | Python, SQL, AWS, Spark, Airflow, dbt, Snowflake, Docker, Kubernetes, ETL |
-| mock_002 | Data Engineer | DataStream LLC | San Francisco | 127500 | Python, PySpark, Kafka, GCP, Terraform, BigQuery, Databricks |
-| mock_005 | Data Engineer | FinTech Solutions | Chicago | 115000 | Python, SQL, Kafka, Redis, AWS, Redshift, Docker, Kubernetes, Airflow, REST API |
+![Job Listings](assets/Job_Listing.png)
 
-### Insight: Top 10 Skills
-
-| Skill | Job Count | % of Listings |
-|---|---|---|
-| Python | 8 | 100.0% |
-| SQL | 6 | 75.0% |
-| AWS | 5 | 62.5% |
-| Airflow | 4 | 50.0% |
-| Docker | 4 | 50.0% |
-| Kafka | 3 | 37.5% |
-| dbt | 3 | 37.5% |
-| Spark | 3 | 37.5% |
-
-### Insight: Top Companies
-
-| Company | Open Roles | Avg Salary |
-|---|---|---|
-| TechCorp Inc | 2 | $170,000 |
-| DataStream LLC | 2 | $131,250 |
-| Analytics Co | 1 | N/A |
-
-### Insight: Jobs by City
-
-| City | State | Job Count | Avg Salary |
-|---|---|---|---|
-| New York | NY | 2 | $170,000 |
-| San Francisco | CA | 1 | $127,500 |
-| Austin | TX | 1 | N/A |
-| Seattle | WA | 1 | $122,500 |
-
----
-
-## 🔍 Running SQL Queries
-
-After the pipeline loads data, run the analytical queries directly:
-
-```bash
-psql -U postgres -d job_market_db -f sql/queries.sql
+![Overview](assets/Overview.png)
 ```
 
-Or connect interactively:
+------------------------------------------------------------------------
 
-```bash
-psql -U postgres -d job_market_db
+# 🗄 Database Schema
 
--- Example: top skills
-SELECT s.skill_name, COUNT(*) AS job_count
-FROM job_skills js
-JOIN skills s ON js.skill_id = s.skill_id
-GROUP BY s.skill_name
-ORDER BY job_count DESC
-LIMIT 10;
-```
+-   **jobs**
+-   **skills**
+-   **job_skills**
 
----
+Designed using a normalized many-to-many relationship for efficient
+analytics.
 
-## 🔧 Key Engineering Decisions
+------------------------------------------------------------------------
 
-**Idempotent loading** — Every INSERT uses `ON CONFLICT DO NOTHING`, so re-running the pipeline never creates duplicates.
+# 📈 Insights
 
-**Modular phases** — Each phase (extract / transform / load) can be run independently via `--phase`, making debugging and testing straightforward.
+The dashboard provides:
 
-**Mock data fallback** — The pipeline ships with realistic mock data so the full Extract → Transform → Load flow works without API credentials.
+-   Total Jobs
+-   Top Hiring Companies
+-   Most In-demand Skills
+-   Jobs by Indian City
+-   Salary Distribution
+-   Searchable Job Listings
 
-**Normalised schema** — Skills are stored in a dedicated `skills` table with a many-to-many bridge, avoiding data redundancy and enabling efficient aggregations.
+------------------------------------------------------------------------
 
-**Structured logging** — Every run produces a timestamped log file in `logs/`, separate from console output.
+# 💡 Engineering Highlights
 
----
+-   Modular ETL architecture
+-   REST API integration
+-   Configuration-driven design
+-   Structured logging
+-   Idempotent database loading
+-   SQL analytics
+-   Interactive BI dashboard
 
-## 🔮 Future Improvements
+------------------------------------------------------------------------
 
-- [ ] **Incremental loading** — Track `last_extracted_at` in a metadata table and fetch only new listings on subsequent runs
-- [ ] **Airflow/Prefect DAG** — Replace `main.py` orchestration with a proper workflow scheduler
-- [ ] **dbt models** — Add a transformation layer with lineage and testing via dbt
-- [ ] **Docker Compose** — Package the app + PostgreSQL into a one-command `docker compose up` environment
-- [ ] **Unit tests** — Add pytest coverage for transformation functions and mock API responses
-- [ ] **Dashboard** — Connect a Grafana or Metabase dashboard to the PostgreSQL database for live visualisation
-- [ ] **Multi-source extraction** — Add LinkedIn, Indeed, or Glassdoor adapters behind a common interface
-- [ ] **Salary normalisation** — Detect hourly vs. annual rates and normalise to annual USD
+# 🔮 Future Enhancements
 
----
+-   Apache Airflow orchestration
+-   Docker & Docker Compose
+-   Incremental loading
+-   Data quality validation
+-   CI/CD with GitHub Actions
+-   AWS deployment
 
-## 📝 License
+------------------------------------------------------------------------
 
-MIT — free to use, modify, and distribute.
+# 👨‍💻 Author
 
----
+**Mayank Giya**
 
-## 🙋 Author
+-   GitHub: https://github.com/Mayankgiya42
 
-Built as a portfolio project to demonstrate production-style data engineering patterns.  
-Connect on [LinkedIn](https://linkedin.com/in/YOUR_PROFILE) or view more projects at [GitHub](https://github.com/YOUR_USERNAME).
+------------------------------------------------------------------------
